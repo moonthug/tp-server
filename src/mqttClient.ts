@@ -19,7 +19,7 @@ export function startMqttClient(options: StartMqttClientOptions): Promise<void> 
   return new Promise<void>((resolve, reject) => {
     mqttClient.on('connect', () => {
       mqttClient.subscribe(options.topic, (err) => {
-        if (!err) return reject(err);
+        if (err) return reject(err);
 
         resolve();
       });

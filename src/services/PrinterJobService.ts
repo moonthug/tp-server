@@ -1,4 +1,4 @@
-import Bull, { Job, Queue } from 'bull';
+import Bull, { DoneCallback, Job, Queue } from 'bull';
 
 import { parseJobData } from '../helpers/parseJobData';
 import { Instruction, PrinterService } from './PrinterService';
@@ -49,14 +49,9 @@ export class PrinterJobService {
    *
    * @private
    */
-  private async _processQueue(job: Job<PrinterJob>) {
+  private async _processQueue(job: Job<PrinterJob>, done: DoneCallback) {
     console.log(`Process Job: ${job.id}`);
-    try {
-      const result = await this._printerService.print(job.data.instructions);
-    } catch (e) {
-      console.log(e);
-    }
-
-    return '';
+    this._printerService.print(job.data.instructions);
+    return done(null, true);
   }
 }
