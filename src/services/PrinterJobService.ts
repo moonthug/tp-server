@@ -25,7 +25,7 @@ export class PrinterJobService {
         duration: 30000
       }
     });
-    this._queue.process(this._processQueue);
+    this._queue.process(this._processQueue.bind(this));
   }
 
   /**
@@ -50,6 +50,13 @@ export class PrinterJobService {
    * @private
    */
   private async _processQueue(job: Job<PrinterJob>) {
-    return this._printerService.print(job.data.instructions);
+    console.log(`Process Job: ${job.id}`);
+    try {
+      const result = await this._printerService.print(job.data.instructions);
+    } catch (e) {
+      console.log(e);
+    }
+
+    return '';
   }
 }
