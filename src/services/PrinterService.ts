@@ -35,6 +35,11 @@ class TestPrinter {
   }
 }
 
+interface PrinterServiceOptions {
+  vId: number;
+  pId: number;
+}
+
 export class PrinterService {
   private readonly _printer: Printer;
   private _deviceReady: boolean;
@@ -42,8 +47,8 @@ export class PrinterService {
   /**
    *
    */
-  constructor() {
-    const device = new EscposUsb(0x04b8, 0x0e15);
+  constructor(options: PrinterServiceOptions) {
+    const device = new EscposUsb(options.vId, options.pId);
     this._deviceReady = false;
     this._printer = new escpos.Printer(device as Adapter);
     device.open(() => {

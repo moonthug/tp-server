@@ -1,0 +1,7 @@
+{
+ "port": 3000,
+ "brokerUrl": "mqtt://192.168.1.50",
+ "topic": "h0me/printer",
+ "printerInterface": "04b8:0e15",
+ "redisUrl": "redis://192.168.1.50:6379"
+}

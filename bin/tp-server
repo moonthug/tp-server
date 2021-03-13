@@ -1,0 +1,17 @@
+#!/bin/env node
+
+const { startServer } = require('../dist/index');
+
+async function main() {
+  const configPath = process.argv[2];
+  try {
+    const config = require(configPath);
+
+    await startServer(config);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+main().catch(e => console.error);
+

@@ -8,6 +8,12 @@ interface PrinterJob {
   raw: string;
 }
 
+interface PrinterJobServiceOptions {
+  printerPId: number;
+  printerVId: number;
+  redisUrl: string
+}
+
 export class PrinterJobService {
   private readonly _printerService: PrinterService;
   private readonly _queue: Queue<PrinterJob>;
@@ -15,10 +21,10 @@ export class PrinterJobService {
   /**
    *
    */
-  constructor() {
-    this._printerService = new PrinterService();
+  constructor(options: PrinterJobServiceOptions) {
+    this._printerService = new PrinterService({ vId: options.printerVId, pId: options.printerPId });
     this._queue = new Bull<PrinterJob>('print', {
-      redis: 'redis://192.168.1.50:6379',
+      redis: options.redisUrl,
       prefix: 'tp-server',
       limiter: {
         max: 1,

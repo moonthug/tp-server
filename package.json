@@ -1,5 +1,5 @@
 {
-  "name": "tp-server",
+  "name": "@h0me/tp-server",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -17,6 +17,7 @@
     "build": "tsc",
     "prebuild": "rm -rf ./dist",
     "start:debug": "ts-node src/index.ts",
+    "start:example": "node bin/tp-server ../examples/config.json",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "mocha -r ts-node/register src/**/*.test.ts",
