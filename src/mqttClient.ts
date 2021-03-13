@@ -1,27 +1,29 @@
-import mqtt from 'mqtt';
+import mqtt, { MqttClient } from 'mqtt';
 import { PrinterJobService } from './services/PrinterJobService';
 
 interface StartMqttClientOptions {
+  brokerUrl: string;
+  topic: string;
   printerJobService: PrinterJobService
 }
 
-export function startMqttClient(options: StartMqttClientOptions) {
-  const mqttClient = mqtt.connect('mqtt://192.168.1.50')
+export function startMqttClient(options: StartMqttClientOptions): Promise<void> {
+  const mqttClient = mqtt.connect(options.brokerUrl);
 
-  mqttClient.on('connect', function () {
-    mqttClient.subscribe('presence', function (err) {
-      if (!err) {
-        mqttClient.publish('presence', 'Hello mqtt')
-      }
-    })
+  mqttClient.on('message', (topic, message) => {
+    if (topic === options.topic) {
+      console.log(message.toString());
+    }
   });
 
-  mqttClient.on('message', function (topic, message) {
-    // message is Buffer
-    console.log(message.toString())
-    mqttClient.end()
-  });
+  return new Promise<void>((resolve, reject) => {
+    mqttClient.on('connect', () => {
+      mqttClient.subscribe(options.topic, (err) => {
+        if (!err) return reject(err);
 
-  return mqttClient;
+        resolve();
+      });
+    });
+  });
 }
 

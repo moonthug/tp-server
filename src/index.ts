@@ -8,10 +8,14 @@ async function main() {
   const printerJobService = new PrinterJobService();
 
   console.log('Starting MQTT Client...');
-  startMqttClient({ printerJobService });
+  startMqttClient({
+    brokerUrl: 'mqtt://192.168.1.50',
+    topic: 'home/printer',
+    printerJobService
+  });
 
   console.log('Starting HTTP Server...');
-  await startHttpServer({ printerJobService });
+  await startHttpServer({ port: 3000, printerJobService });
 }
 
 main().catch(err => console.error(err));

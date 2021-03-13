@@ -27,14 +27,13 @@ export class PrinterService {
    * @param instructions
    */
   public print(instructions: Instruction[]) {
-    let pipeline = this._printer;
+    let pipeline: Record<string, any> = this._printer;
 
     instructions.forEach(instruction => {
-      // @ts-ignore
-      pipeline = pipeline[instruction.command].call(null, instruction.args);
-    })
+      console.log('call: ', instruction.command, instruction.args);
+      pipeline = pipeline[instruction.command].apply(null, instruction.args);
+    });
 
-   return pipeline.close();
+    return pipeline.close();
   }
-
 }
