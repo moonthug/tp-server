@@ -1,9 +1,11 @@
 import escpos, { Adapter, Printer } from 'escpos';
 import EscposUsb from 'escpos-usb';
 
+type StringOrNumber = string | number;
+
 export interface Instruction {
   command: string;
-  args: string[];
+  args: StringOrNumber[];
 }
 
 class TestPrinter {
@@ -57,9 +59,10 @@ export class PrinterService {
     let pipeline: Record<string, any> = this._printer;
 
     instructions.forEach(instruction => {
-      console.log('call:', instruction.command, instruction.args);
       const pipelineFunc = pipeline[instruction.command];
       pipeline = pipelineFunc.apply(pipeline, instruction.args);
     });
+
+    return pipeline.flush();
   }
 }

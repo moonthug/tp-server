@@ -5,13 +5,13 @@ interface ParsedJob {
   instructions?: Instruction[];
 }
 
-const instructionRegex = /(".*?")|([^ ]+)/g
+const instructionRegex = /(".*?")|([^ ]+)/g;
 
 export function parseJobData(data: string) {
   const instructions = data.split('\n');
 
   if (instructions.length == 0) {
-    return { error: `No instructions in the Job` };
+    return { error: 'No instructions in the Job' };
   }
 
   const parsedInstructions: Instruction[] = new Array<Instruction>();
@@ -19,15 +19,18 @@ export function parseJobData(data: string) {
   instructions.forEach(instruction => {
     const parts = instruction
       .match(instructionRegex)
-      .map((arg: string) => arg.replace(/^\"|\"$/g, ''));
+      .map((arg: string) => arg.replace(/^"|"$/g, ''));
 
     const command = parts[0];
-    const args = parts.splice(1);
+    let args: string[] | number[] = parts.splice(1);
+
+    if (command === 'size') {
+      args = args.map((arg: string) => parseInt(arg, 10));
+    }
 
     // @TODO Validate
-
-    parsedInstructions.push({ command, args })
-  })
+    parsedInstructions.push({ command, args });
+  });
 
   return { instructions: parsedInstructions };
 }
