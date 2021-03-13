@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "bin": {
-    "tp-s3rver": "./bin/tp-server"
+    "tp-server": "./bin/tp-server"
   },
   "directories": {
     "src": "src",
