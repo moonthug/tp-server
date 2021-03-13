@@ -10,11 +10,11 @@ interface StartMqttClientOptions {
 export function startMqttClient(options: StartMqttClientOptions): Promise<void> {
   const mqttClient = mqtt.connect(options.brokerUrl);
 
-  mqttClient.on('message', (topic, message) => {
+  mqttClient.on('message', async (topic, message) => {
     if (topic === options.topic) {
-      console.log(message.toString());
+      const job = await options.printerJobService.addJob(message.toString());
 
-      options.printerJobService.addJob(message.toString());
+      mqttClient.publish(`${topic}/${job.id}`, JSON.stringify(job.data));
     }
   });
 
