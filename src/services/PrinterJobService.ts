@@ -22,7 +22,7 @@ export class PrinterJobService {
       prefix: 'tp-server',
       limiter: {
         max: 1,
-        duration: 30000
+        duration: 5000
       }
     });
     this._queue.process(this._processQueue.bind(this));
