@@ -6,6 +6,33 @@ export interface Instruction {
   args: string[];
 }
 
+class TestPrinter {
+
+  font(val: string) {
+    console.log(`font: ${val}`);
+    return this;
+  }
+
+  align(val: string) {
+    console.log(`align: ${val}`);
+    return this;
+  }
+
+  text(val: string) {
+    console.log(`text: ${val}`);
+    return this;
+  }
+
+  barcode(val: string, type: string) {
+    console.log(`barcode: ${val}, ${type}`);
+    return this;
+  }
+
+  close() {
+    return this;
+  }
+}
+
 export class PrinterService {
   private readonly _printer: Printer;
   private _deviceReady: boolean;
@@ -31,7 +58,8 @@ export class PrinterService {
 
     instructions.forEach(instruction => {
       console.log('call:', instruction.command, instruction.args);
-      pipeline = pipeline[instruction.command].apply(pipeline, ...instruction.args);
+      const pipelineFunc = pipeline[instruction.command];
+      pipeline = pipelineFunc.apply(pipeline, instruction.args);
     });
 
     return pipeline.close();
