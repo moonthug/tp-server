@@ -14,7 +14,7 @@ export class PrinterService {
    *
    */
   constructor() {
-    const device = new EscposUsb();
+    const device = new EscposUsb(0x04b8, 0x0e15);
     this._deviceReady = false;
     this._printer = new escpos.Printer(device as Adapter);
     device.open(() => {
