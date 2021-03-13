@@ -30,8 +30,8 @@ export class PrinterService {
     let pipeline: Record<string, any> = this._printer;
 
     instructions.forEach(instruction => {
-      console.log('call: ', instruction.command, instruction.args);
-      pipeline = pipeline[instruction.command].apply(null, instruction.args);
+      console.log('call:', instruction.command, instruction.args);
+      pipeline = pipeline[instruction.command].apply(pipeline, ...instruction.args);
     });
 
     return pipeline.close();
