@@ -61,7 +61,5 @@ export class PrinterService {
       const pipelineFunc = pipeline[instruction.command];
       pipeline = pipelineFunc.apply(pipeline, instruction.args);
     });
-
-    return pipeline.close();
   }
 }
