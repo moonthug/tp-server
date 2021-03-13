@@ -13,6 +13,8 @@ export function startMqttClient(options: StartMqttClientOptions): Promise<void> 
   mqttClient.on('message', (topic, message) => {
     if (topic === options.topic) {
       console.log(message.toString());
+
+      options.printerJobService.addJob(message.toString());
     }
   });
 
