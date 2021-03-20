@@ -23,6 +23,7 @@
     "test": "mocha -r ts-node/register src/**/*.test.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
     "watch": "tsc --watch",
+    "prepublish": "npm build",
     "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
