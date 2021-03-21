@@ -21,6 +21,7 @@ export const postJobMiddleware: Middleware = async (ctx: AppContext, next: Koa.N
     ctx.body = job.id;
 
   } catch (e) {
+    // logger
     throw e;
   }
   return next();
