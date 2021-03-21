@@ -24,7 +24,7 @@ export const postJobMiddleware: Middleware = async (ctx: AppContext, next: Koa.N
     throw e;
   }
   return next();
-}
+};
 
 /**
  *
