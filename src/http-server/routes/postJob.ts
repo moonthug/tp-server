@@ -32,4 +32,4 @@ export const postJobMiddleware: Middleware = async (ctx: AppContext, next: Koa.N
 export const postJobRouteMiddlewares = [
   validationMiddleware,
   postJobMiddleware
-]
+];
