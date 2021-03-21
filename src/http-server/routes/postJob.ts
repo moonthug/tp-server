@@ -8,7 +8,7 @@ import { AppContext } from '../app';
  */
 export const validationMiddleware: Middleware = async (ctx: AppContext, next: Koa.Next) => {
   return next();
-}
+};
 
 /**
  *
